@@ -59,6 +59,7 @@ static const byte PROGMEM mapsize[] = {
   45, 3, 6, 0, 8, 0, 0,  // ga23c asic multicart [UNLICENSED]
   47, 4, 4, 6, 6, 0, 0,  // (super spike vball + world cup)
   48, 3, 4, 6, 6, 0, 0,  // taito tc0690
+  57, 3, 3, 4, 5, 0, 0,  // BMC-GKA (C)NROM-based multicarts [UNLICENSED]
   58, 1, 6, 1, 6, 0, 0,  // BMC-GKB (C)NROM-based multicarts, duplicate of mapper 213 [UNLICENSED]
   60, 2, 2, 3, 3, 0, 0,  // Reset-based NROM-128 4-in-1 multicarts [UNLICENSED]
   62, 7, 7, 8, 8, 0, 0,  // K-1017P [UNLICENSED]
@@ -3233,6 +3234,16 @@ void readPRG(boolean readrom) {
         }
         break;
       
+      case 57:
+        banks = int_pow(2, prgsize);
+        for (int i = 0; i < banks; i++) {
+          write_prg_byte(0x8800, (i << 5));
+          for (word address = 0x0; address < 0x4000; address += 512) {
+            dumpPRG(base, address);
+          }
+        }
+        break;
+        
       case 62:
         banks = int_pow(2, prgsize) / 2;
         for (int i = 0; i < banks; i++) {
@@ -3983,6 +3994,17 @@ void readCHR(boolean readrom) {
             write_prg_byte(0x8001, i);
             for (word address = 0x1200; address < 0x1400; address += 512) {
               dumpCHR_M2(address);  // Read CHR with M2 Pulse
+            }
+          }
+          break;
+        
+        case 57:
+          banks = int_pow(2, chrsize) / 2;
+          for (int i = 0; i < banks; i++) {
+            write_prg_byte(0x8000, (0x80 | (i & 0x08) << 3));
+            write_prg_byte(0x8800, (i & 0x07));
+            for (word address = 0x0; address < 0x2000; address += 512) {
+              dumpCHR(address);
             }
           }
           break;
