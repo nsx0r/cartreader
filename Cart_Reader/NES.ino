@@ -116,7 +116,7 @@ static const byte PROGMEM mapsize[] = {
   207, 4, 4, 5, 5, 0, 0,  // taito x1-005 variant (fudou myouou den)
   210, 3, 5, 5, 6, 0, 0,  // namco 175/340
   213, 1, 6, 1, 6, 0, 0,  // BMC-GKB (C)NROM-based multicarts, duplicate of mapper 58 [UNLICENSED]
-  225, 4, 7, 5, 8, 0, 0,  // ET-4310 (FC) + K-1010 (NES) [UNLICENSED]
+  225, 4, 7, 5, 8, 0, 0,  // ET-4310 (FC) + K-1010/K-1040P (NES) [UNLICENSED]
   226, 6, 7, 0, 0, 0, 0,  // BMC-76IN1, BMC-SUPER42IN1, BMC-GHOSTBUSTERS63IN1 [UNLICENSED]
   228, 4, 7, 5, 7, 0, 0,  // Action 52 + Cheetahmen II [UNLICENSED]
   229, 5, 5, 6, 6, 0, 0,  // BMC 31-IN-1 [UNLICENSED]
