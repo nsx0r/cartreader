@@ -36,6 +36,7 @@ static const byte PROGMEM mapsize[] = {
   3, 0, 1, 0, 3, 0, 0,   // cnrom
   4, 1, 5, 0, 6, 0, 1,   // mmc3/mmc6                                           [sram/prgram r/w]
   5, 3, 5, 5, 7, 0, 3,   // mmc5                                                [sram r/w]
+  6, 0, 8, 0, 0, 0, 0,   // mapper 446 [nsx test]
   7, 2, 4, 0, 0, 0, 0,   // axrom
   9, 3, 3, 5, 5, 0, 0,   // mmc2 (punch out)
   10, 3, 4, 4, 5, 1, 1,  // mmc4                                               [sram r/w]
@@ -2611,6 +2612,22 @@ void readPRG(boolean readrom) {
           write_prg_byte(0x5114, i | 0x80);
           write_prg_byte(0x5115, (i + 1) | 0x80);
           for (word address = 0x0; address < 0x4000; address += 512) {
+            dumpPRG(base, address);
+          }
+        }
+        break;
+        
+      case 6:  // mapper 446
+        banks = int_pow(2, prgsize) * 2;
+        write_prg_byte(0x5003, 0);
+        write_prg_byte(0x5005, 0);
+        write_prg_byte(0x5002, 0);
+        for (int i = 0; i < banks; i++) {
+          write_prg_byte(0x5006, i);
+          write_prg_byte(0x5001, i);
+          write_prg_byte(0x5002, i >> 8);
+          write_prg_byte(0x8000, 0);
+          for (word address = 0x0; address < 0x2000; address += 512) {
             dumpPRG(base, address);
           }
         }
